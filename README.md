@@ -10,6 +10,10 @@ or
 npm install --save graphql-batching-helpers
 ```
 
+## Setup
+- process.env.GRAPHQL_ENDPOINT
+- process.env.GRAPHQL_ACCESS_TOKEN
+
 ## Quick Start
 
 ```es6
