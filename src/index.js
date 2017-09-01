@@ -52,13 +52,21 @@ const runBatchDelete = async (mutations, options) => {
 }
 
 const batchDeleteAllModels = async options => {
+  console.log('Fetching Model:', options.modelName)
   const queryValues = await runBatchQuery(options)
-  const mutationValues = generateBatchDeleteMutations(queryValues, options)
-  const result = await runBatchDelete(mutationValues, {
-    concurrency: options.concurrency
-  })
 
-  return result
+  console.log('# of Items:', queryValues.length)
+  if (queryValues && queryValues.length > 0) {
+    console.log('Deleting Items')
+    const mutationValues = generateBatchDeleteMutations(queryValues, options)
+    await runBatchDelete(mutationValues, {
+      concurrency: options.concurrency
+    })
+
+    await batchDeleteAllModels(options)
+  } else {
+    console.log('Done! No more models to delete')
+  }
 }
 
 module.exports.generateBatchQuery = generateBatchQuery
